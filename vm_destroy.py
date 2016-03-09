@@ -19,8 +19,10 @@ def main():
     destroy_cmd = "uvt-kvm destroy " + params["vm_name"]
     res = os.system(destroy_cmd)
     if res == 0:
+        print("VM " +  params["vm_name"] + " Destroyed. now remove custom VM control folder")
         rm_cmd = "rm -rf " + params["vm_name"]
         os.system(rm_cmd)
+        print("Folder " + params["vm_name"] + " removed!")
     else:
         print("Failed to destroy VM " + params["vm_name"] + ".")
         print("Please delete manually")

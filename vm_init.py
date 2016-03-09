@@ -93,14 +93,17 @@ def create_vm(vm_config):
 
     fab_cmd = "fab config_env:" + vm_ip + ",./" + vm_config["name"] + "/ubuntu_ssh_key.pem remove_cloud_init"
     print("run fabric tasks to config environment accordingly: " + fab_cmd)
-    os.system(fab_cmd)
-    #result = commonlib.ShellOut(fab_cmd)
-    #if result["status"] == 0:
-    #    print("Completed")
-    #else:
-    #    print("Failed to remove Cloud_init from guest system")
-    #    sys.exit(-7)
-    #print(result["output"])
+
+    while True:
+        result = commonlib.ShellOut(fab_cmd)
+        print(result["output"])
+        if result["status"] == 0:
+            print("Completed")
+            break
+        else:
+            print("Failed to remove Cloud_init from guest system,sleep 10 seconds and try again")
+            time.sleep(10)
+
 
     detachVDBcmd = "virsh detach-disk " + vm_config["name"] + " vdb --persistent"
     print("remove vdb from vm, using virsh command: " + detachVDBcmd)
