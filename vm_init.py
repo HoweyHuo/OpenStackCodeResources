@@ -108,7 +108,7 @@ def create_vm(vm_config):
 
     print("Sleep for 5 seconds, wait for disk really detached")
     # TODO: Here we need to add real check function to check disk really detached
-    time.slee(5)
+    time.sleep(5)
 
     shutdownVMcmd = "virsh shutdown " + vm_config["name"]
     print("Shutdown VM " + vm_config["name"] + "with Virsh Command:" + shutdownVMcmd)
@@ -116,7 +116,7 @@ def create_vm(vm_config):
 
     print("Sleep for 5 seconds, wait for machine shutdown")
     # TODO: Here we need to add real check function to check machine really down before do anything else
-    time.slee(5)
+    time.sleep(5)
 
     startVMcmd = "virsh start " + vm_config["name"]
     print("Start VM " + vm_config["name"] + "with Virsh Command:" + startVMcmd)
@@ -124,7 +124,7 @@ def create_vm(vm_config):
 
     print("Sleep for 5 seconds, wait for machine startup")
     # TODO: Here we need to add real check function to check machine really up before do anything else
-    time.slee(5)
+    time.sleep(5)
 
 def parse_params():
     usage_str = """use vm_init to create VM.
