@@ -1,5 +1,6 @@
 #! /bin/bash
 
+# update apt-get repository
 apt-get update
-apt-get install -y ruby
-apt-get install -y ntp
+# remove cloud init from this machine. so we can also remove the attached disk
+sudo apt-get purge -y cloud-init
