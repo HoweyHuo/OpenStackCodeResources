@@ -7,5 +7,5 @@ def config_env(ip, key_path):
 	env.key_filename = key_path
 	env.disable_known_hosts = True
 
-def test_logger():
-	run('logger "Howey Says Test"')
+def remove_cloud_init():
+	sudo('apt-get purge -y cloud-init')

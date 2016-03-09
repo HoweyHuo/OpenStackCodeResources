@@ -86,12 +86,25 @@ def create_vm(vm_config):
     dumpXmlcmd = "virsh dumpxml " + vm_config["name"]
     print("run Virsh Command to dump XML out of KVM")
     result = commonlib.ShellOut(dumpXmlcmd)
-    print(result)
+    # print(result)
     # TODO: We need to collect the Cloud_init data drive image information and remove it accordingly.
     # TODO: For now we will just use hard coded path for this. /var/lib/uvtool/libvirt/images/{vm_name}-ds.qcow
+
+    fab_cmd = "fab config_env:" + vm_ip + ",./" + vm_config["name"] + "/ubuntu_ssh_key.pem remove_cloud_init"
+    print("run fabric tasks to config environment accordingly: " + fab_cmd)
+    os.system(fab_cmd)
+    #result = commonlib.ShellOut(fab_cmd)
+    #if result["status"] == 0:
+    #    print("Completed")
+    #else:
+    #    print("Failed to remove Cloud_init from guest system")
+    #    sys.exit(-7)
+    #print(result["output"])
+
     detachVDBcmd = "virsh detach-disk " + vm_config["name"] + " vdb --persistent"
     print("remove vdb from vm, using virsh command: " + detachVDBcmd)
     os.system(detachVDBcmd)
+
     shutdownVMcmd = "virsh shutdown " + vm_config["name"]
     print("Shutdown VM " + vm_config["name"] + "with Virsh Command:" + shutdownVMcmd)
     os.system(shutdownVMcmd)
@@ -99,17 +112,6 @@ def create_vm(vm_config):
     startVMcmd = "virsh start " + vm_config["name"]
     print("Start VM " + vm_config["name"] + "with Virsh Command:" + startVMcmd)
     os.system(startVMcmd)
-
-    fab_cmd = "fab config_env:" + vm_ip + ",./" + vm_config["name"] + "/ubuntu_ssh_key.pem test_logger"
-    print("run fabric tasks to config environment accordingly: " + fab_cmd)
-    result = commonlib.ShellOut(fab_cmd)
-    if result["status"] == 0:
-        print("Completed")
-    else:
-        print("Failed")
-        sys.exit(-7)
-    print(result["output"])
-
 
 def parse_params():
     usage_str = """use vm_init to create VM.
