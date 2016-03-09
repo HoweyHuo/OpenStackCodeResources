@@ -12,6 +12,7 @@ import json
 import os
 from optparse import OptionParser
 import sys
+import time
 
 
 def main():
@@ -105,13 +106,25 @@ def create_vm(vm_config):
     print("remove vdb from vm, using virsh command: " + detachVDBcmd)
     os.system(detachVDBcmd)
 
+    print("Sleep for 5 seconds, wait for disk really detached")
+    # TODO: Here we need to add real check function to check disk really detached
+    time.slee(5)
+
     shutdownVMcmd = "virsh shutdown " + vm_config["name"]
     print("Shutdown VM " + vm_config["name"] + "with Virsh Command:" + shutdownVMcmd)
     os.system(shutdownVMcmd)
 
+    print("Sleep for 5 seconds, wait for machine shutdown")
+    # TODO: Here we need to add real check function to check machine really down before do anything else
+    time.slee(5)
+
     startVMcmd = "virsh start " + vm_config["name"]
     print("Start VM " + vm_config["name"] + "with Virsh Command:" + startVMcmd)
     os.system(startVMcmd)
+
+    print("Sleep for 5 seconds, wait for machine startup")
+    # TODO: Here we need to add real check function to check machine really up before do anything else
+    time.slee(5)
 
 def parse_params():
     usage_str = """use vm_init to create VM.
