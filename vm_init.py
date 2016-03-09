@@ -118,6 +118,14 @@ def create_vm(vm_config):
     # TODO: Here we need to add real check function to check machine really down before do anything else
     time.sleep(5)
 
+    volDeletecmd = "virsh vol-delete " + vm_config["name"] + "-ds.qcow --pool uvtool"
+    print("remove vdb from vm, using virsh command: " + volDeletecmd)
+    os.system(volDeletecmd)
+
+    print("Sleep for 5 seconds, wait for volume really deleted")
+    # TODO: Here we need to add real check function to check volume is really deleted
+    time.sleep(5)
+
     startVMcmd = "virsh start " + vm_config["name"]
     print("Start VM " + vm_config["name"] + "with Virsh Command:" + startVMcmd)
     os.system(startVMcmd)
