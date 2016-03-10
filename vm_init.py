@@ -92,7 +92,7 @@ def create_vm(vm_config):
     # TODO: For now we will just use hard coded path for this. /var/lib/uvtool/libvirt/images/{vm_name}-ds.qcow
 
     fab_cmd = "fab config_env:" + vm_ip + ",./" + vm_config["name"] + "/ubuntu_ssh_key.pem remove_cloud_init"
-    print("run fabric tasks to config environment accordingly: " + fab_cmd)
+    print("run fabric task to remove cloud_init: " + fab_cmd)
 
     while True:
         result = commonlib.ShellOut(fab_cmd)
@@ -136,6 +136,26 @@ def create_vm(vm_config):
     print("Sleep for 5 seconds, wait for machine startup")
     # TODO: Here we need to add real check function to check machine really up before do anything else
     time.sleep(5)
+
+    
+    current_dir = os.getcwd()
+    create_img_cmd = "qemu-img create -f qcow2 -o preallocation=metadata ./" + vm_config["name"] + "/" + vm_config["name"] + "-disk2.qcow2 100G"
+    print("Create 100GB drive as second hard drive: " + create_img_cmd)
+    os.system(create_img_cmd)
+    time.sleep(10)
+
+    attach_disk_cmd = "virsh attach-disk " + vm_config["name"] + " --source " + current_dir + "/" +  vm_config["name"] + "/" + vm_config["name"] + "-disk2.qcow2 --target vdb"
+    #TODO: here we might need to have script to determine the available device. for now, just Hard Code it
+    print("attach dirve image to VM: " + attach_disk_cmd)
+    os.system(attach_disk_cmd)
+    time.sleep(5)
+
+    fab_cmd = "fab config_env:" + vm_ip + ",./" + vm_config["name"] + "/ubuntu_ssh_key.pem update_fstab_mount_vdb"
+    print("run fabric tasks to mount new disk to /data: " + fab_cmd)
+    result = commonlib.ShellOut(fab_cmd)
+    print(result["output"])
+
+
 
 def parse_params():
     usage_str = """use vm_init to create VM.
