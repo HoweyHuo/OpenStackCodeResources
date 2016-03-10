@@ -1,6 +1,7 @@
 {
 	"name" : "controller02",
 	"cpu" : "--cpu 6",
+	"memory_mb" : "4096",
 	"root_disk_gb": "--disk 30",
 	"second_disk_gb" : "300"
 }

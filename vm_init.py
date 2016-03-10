@@ -56,9 +56,13 @@ def create_vm(vm_config):
     os.system("cp ubuntu_ssh_key.pem* ./%s/" % vm_config["name"])
 
     print("use uvt-kvm to create VM according to vm_config")
-    vm_create_cmd = "uvt-kvm create " + vm_config["cpu"] + " " + vm_config["root_disk_gb"] + "  --run-script-once ./" + \
-                    vm_config["name"] + "/vm_bootstrap.sh --ssh-public-key-file ./" + vm_config[
-                        "name"] + "/ubuntu_ssh_key.pem.pub " + vm_config["name"] + " release=wily"
+    vm_create_cmd = "uvt-kvm create " + \
+                        vm_config["cpu"] + " " + \
+                        vm_config["root_disk_gb"] + " " +\
+                        vm_config["memory_mb"] + " " +\
+                        "--run-script-once ./" + vm_config["name"] + "/vm_bootstrap.sh " + \
+                        "--ssh-public-key-file ./" + vm_config["name"] + "/ubuntu_ssh_key.pem.pub " + \
+                        vm_config["name"] + " release=wily"
     print("Command line: " + vm_create_cmd)
     os.system(vm_create_cmd)
 
