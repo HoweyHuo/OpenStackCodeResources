@@ -139,8 +139,8 @@ def create_vm(vm_config):
 
     
     current_dir = os.getcwd()
-    create_img_cmd = "qemu-img create -f qcow2 -o preallocation=metadata ./" + vm_config["name"] + "/" + vm_config["name"] + "-disk2.qcow2 100G"
-    print("Create 100GB drive as second hard drive: " + create_img_cmd)
+    create_img_cmd = "qemu-img create -f qcow2 -o preallocation=metadata ./" + vm_config["name"] + "/" + vm_config["name"] + "-disk2.qcow2 " + vm_config["second_disk_gb"] + "G"
+    print("Create " + vm_config["second_disk_gb"] + "GB drive as second hard drive: " + create_img_cmd)
     os.system(create_img_cmd)
     time.sleep(10)
 
