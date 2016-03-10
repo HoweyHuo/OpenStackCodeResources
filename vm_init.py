@@ -18,7 +18,7 @@ import time
 def main():
     params = parse_params()
     vm_config = validate_config(params["vm_config"])
-    create_vm(vm_config)
+    vm_ip = create_vm(vm_config)
 
 
 def validate_config(config_filename):
@@ -53,7 +53,7 @@ def create_vm(vm_config):
     os.system("cp vm_bootstrap.sh ./%s/" % vm_config["name"])
 
     print("Copy Public and Private key pair over for ubuntu user access")
-    os.system("cp ubuntu_ssh_key.pem* ./%s/" % vm_config["name"])
+    os.system("cp " + vm_config["key_name"] + "* ./" + vm_config["name"] + "/")
 
     print("use uvt-kvm to create VM according to vm_config")
     vm_create_cmd = "uvt-kvm create " + \
@@ -62,7 +62,7 @@ def create_vm(vm_config):
                         vm_config["memory_mb"] + " " +\
                         "--bridge virbr0 " + \
                         "--run-script-once ./" + vm_config["name"] + "/vm_bootstrap.sh " + \
-                        "--ssh-public-key-file ./" + vm_config["name"] + "/ubuntu_ssh_key.pem.pub " + \
+                        "--ssh-public-key-file ./" + vm_config["name"] + "/" + vm_config["key_name"] + ".pub " + \
                         vm_config["name"] + " release=wily"
     print("Command line: " + vm_create_cmd)
     os.system(vm_create_cmd)
@@ -74,7 +74,7 @@ def create_vm(vm_config):
         print("Failed to create VM " + vm_config["name"])
         sys.exit(-5)
 
-    vm_wait_cmd = "uvt-kvm wait --ssh-private-key-file ./" + vm_config["name"] + "/ubuntu_ssh_key.pem --insecure " + \
+    vm_wait_cmd = "uvt-kvm wait --ssh-private-key-file ./" + vm_config["name"] + "/" + vm_config["key_name"] + " --insecure " + \
                   vm_config["name"]
     print("Wait for VM provisioning finish with uvt-kvm wait command: " + vm_wait_cmd)
     os.system(vm_wait_cmd)
@@ -96,7 +96,7 @@ def create_vm(vm_config):
     # TODO: We need to collect the Cloud_init data drive image information and remove it accordingly.
     # TODO: For now we will just use hard coded path for this. /var/lib/uvtool/libvirt/images/{vm_name}-ds.qcow
 
-    fab_cmd = "fab config_env:" + vm_ip + ",./" + vm_config["name"] + "/ubuntu_ssh_key.pem remove_cloud_init"
+    fab_cmd = "fab config_env:" + vm_ip + ",./" + vm_config["name"] + "/" + vm_config["key_name"] + " remove_cloud_init"
     print("run fabric task to remove cloud_init: " + fab_cmd)
 
     while True:
@@ -155,11 +155,11 @@ def create_vm(vm_config):
     os.system(attach_disk_cmd)
     time.sleep(5)
 
-    fab_cmd = "fab config_env:" + vm_ip + ",./" + vm_config["name"] + "/ubuntu_ssh_key.pem update_fstab_mount_vdb"
+    fab_cmd = "fab config_env:" + vm_ip + ",./" + vm_config["name"] + "/" + vm_config["key_name"] + " update_fstab_mount_vdb"
     print("run fabric tasks to mount new disk to /data: " + fab_cmd)
     result = commonlib.ShellOut(fab_cmd)
     print(result["output"])
-
+    return vm_ip
 
 
 def parse_params():

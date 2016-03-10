@@ -3,5 +3,9 @@
 	"cpu" : "--cpu 8",
 	"memory_mb" : "--memory 8192",
 	"root_disk_gb": "--disk 30",
-	"second_disk_gb" : "500"
+	"second_disk_gb" : "500",
+	"key_name" : "ubuntu_ssh_key.pem",
+	"env_config_steps" : [
+		"config_ntp_sync"
+	]
 }

@@ -3,5 +3,6 @@
 	"cpu" : "--cpu 6",
 	"memory_mb" : "--memory 4096",
 	"root_disk_gb": "--disk 30",
-	"second_disk_gb" : "300"
+	"second_disk_gb" : "300",
+	"key_name" : "ubuntu_ssh_key.pem"
 }
