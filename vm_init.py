@@ -60,7 +60,6 @@ def create_vm(vm_config):
                         vm_config["cpu"] + " " + \
                         vm_config["root_disk_gb"] + " " +\
                         vm_config["memory_mb"] + " " +\
-                        "--bridge virbr0 " + \
                         "--run-script-once ./" + vm_config["name"] + "/vm_bootstrap.sh " + \
                         "--ssh-public-key-file ./" + vm_config["name"] + "/" + vm_config["key_name"] + ".pub " + \
                         vm_config["name"] + " release=wily"
