@@ -62,7 +62,7 @@ def create_vm(vm_config):
                         vm_config["memory_mb"] + " " +\
                         "--run-script-once ./" + vm_config["name"] + "/vm_bootstrap.sh " + \
                         "--ssh-public-key-file ./" + vm_config["name"] + "/" + vm_config["key_name"] + ".pub " + \
-                        vm_config["name"] + " release=wily"
+                        vm_config["name"] + " release=trusty"
     print("Command line: " + vm_create_cmd)
     os.system(vm_create_cmd)
 
