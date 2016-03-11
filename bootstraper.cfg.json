@@ -1,5 +1,5 @@
 {
-	"name" : "controller03",
+	"name" : "bootstrapper",
 	"cpu" : "--cpu 2",
 	"memory_mb" : "--memory 2048",
 	"root_disk_gb": "--disk 30",
