@@ -3,7 +3,6 @@ import sys
 import time
 import json
 from pprint import pprint
-import hcnotify
 import uuid
 
 from fabric.api import *
