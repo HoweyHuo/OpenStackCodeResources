@@ -1,8 +1,8 @@
 {
-	"name" : "controller02",
-	"cpu" : "--cpu 6",
+	"name" : "controller03",
+	"cpu" : "--cpu 2",
 	"memory_mb" : "--memory 2048",
 	"root_disk_gb": "--disk 30",
-	"second_disk_gb" : "300",
+	"second_disk_gb" : "100",
 	"key_name" : "ubuntu_ssh_key.pem"
 }
