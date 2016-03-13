@@ -42,7 +42,7 @@ def config_ntp_chrony_sync():
 	append('/etc/chrony/chrony.conf',ntpUsPool,True)
 	sudo('service chrony restart')
 
-def add_public_interface_network(vm_name)
+def add_public_interface_network(vm_name):
 	second_network_attach_cmd = "virsh attach-device " + vm_config["name"] + " --file ./network_definition_template/second_network_interface.xml --persistent"
 	print("run virsh command to add second network adapter:")
 	print(second_network_attach_cmd)
