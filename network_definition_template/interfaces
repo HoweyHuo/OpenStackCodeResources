@@ -1,0 +1,25 @@
+# interfaces(5) file used by ifup(8) and ifdown(8)
+auto lo
+iface lo inet loopback
+
+# enp1s0 is the current physicaly network interface
+# after the following setting take effect, 
+# the origial physical network interface will be come manual with no ip address
+# instead, the bridge interface br0 become the main interface for the machine
+auto enp1s0
+iface enp1s0 inet manual
+
+# br0 is the bridge interface that bind with enp1s0 physical network
+auto br0
+iface br0 inet dhcp
+# the following commented out part is the script to specify the bridge as static interface to get ip.
+#iface br0 inet static
+#	address 192.168.1.10
+#	network 192.168.1.0
+#	broadcast 192.168.1.255
+#	gateway 192.168.1.1
+	bridge_ports enp1s0
+	bridge_stp off
+	bridge_fd 0
+	bridge_maxwait 0
+post-up ip link set br0 address f4:6d:04:08:f1:5f

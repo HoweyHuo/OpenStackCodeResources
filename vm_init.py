@@ -148,7 +148,7 @@ def create_vm(vm_config):
     os.system(create_img_cmd)
     time.sleep(10)
 
-    attach_disk_cmd = "virsh attach-disk " + vm_config["name"] + " --source " + current_dir + "/" +  vm_config["name"] + "/" + vm_config["name"] + "-disk2.qcow2 --target vdb"
+    attach_disk_cmd = "virsh attach-disk " + vm_config["name"] + " --source " + current_dir + "/" +  vm_config["name"] + "/" + vm_config["name"] + "-disk2.qcow2 --target vdb --persistent"
     #TODO: here we might need to have script to determine the available device. for now, just Hard Code it
     print("attach dirve image to VM: " + attach_disk_cmd)
     os.system(attach_disk_cmd)
