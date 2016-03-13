@@ -13,6 +13,7 @@ import os
 from optparse import OptionParser
 import sys
 import time
+import xml.etree.cElementTree as ET
 
 
 def main():
@@ -158,6 +159,12 @@ def create_vm(vm_config):
     print("run fabric tasks to mount new disk to /data: " + fab_cmd)
     result = commonlib.ShellOut(fab_cmd)
     print(result["output"])
+
+
+    fab_cmd = "fab config_env:" + vm_ip + ",./" + vm_config["name"] + "/" + vm_config["key_name"] + " add_public_interface_network:" + vm_config["name"]
+    print("run fabric tasks to add public facing network interface. \n" + fab_cmd)
+    res = os.system(fab_cmd)
+    
     return vm_ip
 
 

@@ -42,24 +42,25 @@ def config_ntp_chrony_sync():
 	append('/etc/chrony/chrony.conf',ntpUsPool,True)
 	sudo('service chrony restart')
 
-def openstack_packages_deploy():
-	sudo('apt-get install -y software-properties-common')
-	sudo('add-apt-repository -y cloud-archive:liberty')
-	sudo('apt-get update')
-	sudo('apt-get -y dist-upgrade')
-	sudo('apt-get install -y python-openstackclient')
+def add_public_interface_network(vm_name)
+	second_network_attach_cmd = "virsh attach-device " + vm_config["name"] + " --file ./network_definition_template/second_network_interface.xml --persistent"
+	print("run virsh command to add second network adapter:")
+	print(second_network_attach_cmd)
+	local(second_network_attach_cmd)
+	print("setup eth1 network as public network")
+	put("network_definition_template/eth1.cfg", "/etc/network/interfaces.d/eth1.cfg", True)
 
-def mariadb_server_deploy():
-	sudo('apt-get install -y mariadb-server python-pymysql')
-	#TODO: add configuration change according to http://docs.openstack.org/liberty/install-guide-ubuntu/environment-sql-database.html
-	#TODO: use tool "expect" to run mysql_secure_installation script
+	print("reboot machine here")
+	sudo("shutdown -r 0")
+	time.sleep(10)
+	run("ifconfig")
 
-def mongodb_deploy():
-	sudo('apt-get install -y mongodb-server mongodb-clients python-pymongo')
-	#TODO: add script to change bind_ip = 127.0.0.1 into bind_ip = 192.168.122.250
-	#TODO: add script to add line smallfiles = true
 
-def rabbitmq_server_deploy():
-	sudo('apt-get install -y rabbitmq-server')
-	sudo('rabbitmqctl add_user openstack RABBIT_PASS')
-	sudo('rabbitmqctl set_permissions openstack ".*" ".*" ".*"')
+
+
+
+
+    
+    
+    
+    

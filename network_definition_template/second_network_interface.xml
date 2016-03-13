@@ -1,0 +1,3 @@
+<interface type='network'>
+      <source network='host-bridge' />
+</interface>
