@@ -43,16 +43,20 @@ def config_ntp_chrony_sync():
 	sudo('service chrony restart')
 
 def add_public_interface_network(vm_name):
-	second_network_attach_cmd = "virsh attach-device " + vm_config["name"] + " --file ./network_definition_template/second_network_interface.xml --persistent"
+	second_network_attach_cmd = "virsh attach-device " + vm_name+ " --file ./network_definition_template/second_network_interface.xml --persistent"
 	print("run virsh command to add second network adapter:")
 	print(second_network_attach_cmd)
 	local(second_network_attach_cmd)
 	print("setup eth1 network as public network")
 	put("network_definition_template/eth1.cfg", "/etc/network/interfaces.d/eth1.cfg", True)
 
-	print("reboot machine here")
-	sudo("shutdown -r 0")
-	time.sleep(10)
+	print("shutdown machine here and sleep for 5")
+	local("virsh shutdown " + vm_name)
+	time.sleep(5)
+
+	print("start machine here and sleep for 15")
+	local("virsh start " + vm_name)
+	time.sleep(15)
 	run("ifconfig")
 
 
