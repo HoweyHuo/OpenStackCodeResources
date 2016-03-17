@@ -1,7 +1,7 @@
 {
-	"name" : "bootstrapper",
-	"cpu" : "--cpu 1",
-	"memory_mb" : "--memory 1024",
+	"name" : "rabbitmq",
+	"cpu" : "--cpu 2",
+	"memory_mb" : "--memory 2048",
 	"root_disk_gb": "--disk 30",
 	"second_disk_gb" : "50",
 	"key_name" : "ubuntu_ssh_key.pem",

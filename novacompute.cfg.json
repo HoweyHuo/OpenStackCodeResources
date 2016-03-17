@@ -1,9 +1,9 @@
 {
-	"name" : "bootstrapper",
-	"cpu" : "--cpu 1",
-	"memory_mb" : "--memory 1024",
+	"name" : "novacompute",
+	"cpu" : "--cpu 6",
+	"memory_mb" : "--memory 4096",
 	"root_disk_gb": "--disk 30",
-	"second_disk_gb" : "50",
+	"second_disk_gb" : "500",
 	"key_name" : "ubuntu_ssh_key.pem",
 	"env_config_steps" : [
 		"config_ntp_sync"

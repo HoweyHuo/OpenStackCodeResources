@@ -1,5 +1,5 @@
 {
-	"name" : "bootstrapper",
+	"name" : "openstackdashboard",
 	"cpu" : "--cpu 1",
 	"memory_mb" : "--memory 1024",
 	"root_disk_gb": "--disk 30",
